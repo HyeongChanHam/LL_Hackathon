@@ -1,0 +1,14 @@
+{% for time in all_time %}
+
+//time.starttime , time.endtime을 어떤 형식으로 보낼 것인가?
+//시간 겹치는 것은 표현의 문제?
+
+<a href="{% url 'detail' time.starttime time.endtime %}">
+    <div class="all_times">
+    {{time.date}}
+    {{time.starttime}}
+    {{time.endtime}}
+    </div>
+</a>
+<br>
+{% endfor %}
