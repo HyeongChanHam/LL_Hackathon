@@ -1,8 +1,33 @@
-{% for timeslot in time_slot %}
-<a href="{% url 'enrollment' timeslot.id %}">
-    <div class="timeslot">
-    {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.isUsed}}
-    <br>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+</head>
+<body>
+    <div class="table">
+        {% for timeslot in time_slot %}
+        <div class="slot">
+            <div class="timeslot">
+            {{timeslot.date}} {{timeslot.dayofweek}} {{timeslot.starttime}} {{timeslot.endtime}}{{timeslot.isUsed}}
+            <br>
+            </div>
+            {% if timeslot.isUsed == False %}
+            <a href="{% url 'enrollment' timeslot.id %}">
+                <div class="square">
+                    click here!
+                </div>
+            </a>
+            {% elif timeslot.isUsed == True %}
+            <div class="square_done">
+                already done
+            </div>
+            {%endif%}
+        </div>
+        {% endfor %}
     </div>
-</a>
-{% endfor %}
+</body>
+</html>

@@ -3,10 +3,9 @@ from .models import Content,DateTime,UserTemp
 from .forms import ContentForm,UserTempForm
 from datetime import datetime,timedelta,time,date
 
-# Create your views here.
 def index(request):
-    all_time=DateTime.objects.filter(isUsed=True)
-    return render(request,'index.html',{'all_time':all_time})
+    all_contents=Content.objects.all()
+    return render(request,'index.html',{'all_contents':all_contents})
 
 def create(request):
     if request.method=='POST':
