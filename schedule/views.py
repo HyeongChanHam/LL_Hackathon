@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Content,DateTime,UserTemp
-from .forms import ContentForm,UserTempForm
+from .forms import ContentForm,UserTempForm,PasswordForm
 from datetime import datetime,timedelta,time,date
 
 # Create your views here.
 def index(request):
-    all_time=DateTime.objects.filter(isUsed=True)
-    return render(request,'index.html',{'all_time':all_time})
+    all_content=Content.objects.all()
+    all_timeslot=DateTime.objects.filter(isUsed=True)
+    return render(request,'index.html',{'all_content':all_content,'all_timeslot':all_timeslot})
 
 def create(request):
     if request.method=='POST':
@@ -20,20 +21,26 @@ def create(request):
             date_time=form.data['date']
             for i in range(runningdate):
                 date=(datetime.strptime(date_time,'%Y-%m-%d %H:%M:%S')+timedelta(days=i)).date()
+                dow=date.weekday()
                 for j in range(num_people):
                     starttime=(datetime.strptime(date_time,'%Y-%m-%d %H:%M:%S')+timedelta(minutes=runningtime*j)).time()
                     endtime=(datetime.strptime(date_time,'%Y-%m-%d %H:%M:%S')+timedelta(minutes=runningtime*(j+1))).time()
-                    obj_timeslot=DateTime(content=obj_content,date=date,starttime=starttime,endtime=endtime,isUsed=False)
+                    obj_timeslot=DateTime(content=obj_content,date=date,starttime=starttime,endtime=endtime,day_of_week=dow,isUsed=False)
                     obj_timeslot.save()
             return redirect('index')
     content_form=ContentForm()
     return render(request,'create.html',{'content_form':content_form})
 
-def detail(request,content_id):
+
+def time_detail(request,content_id):
     content=get_object_or_404(Content,pk=content_id)
     time_slots=DateTime.objects.all()
     time_slot=time_slots.filter(content=content_id)
-    return render(request,'detail.html',{'time_slot':time_slot})
+    return render(request,'time_detail.html',{'time_slot':time_slot})
+
+def content_detail(request,content_id):
+    content=Content.objects.filter(pk=content_id)
+    return render(request,'content_detail.html',{'contents':content})
 
 def enrollment(request,timeslot_id):
     if request.method=='POST':
@@ -54,18 +61,41 @@ def enrollment(request,timeslot_id):
     if timeslot.isUsed==False:
         return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot.id})
     if timeslot.isUsed==True:
-        return redirect('advise',timeslot.id)
+        return redirect('password',timeslot.id)
 
-def advise(request,timeslot_id):
-    timeslot=DateTime.objects.get(pk=timeslot_id)
-    user=UserTemp.objects.get(time_temp=timeslot)
-    usertemp_form=UserTempForm(instance=user)
+
+def password(request,timeslot_id):
+    passwordform=PasswordForm()
     if request.method=="POST":
-        updated_form=UserTempForm(request.POST,instance=user) 
-        if updated_form.is_valid():
-            updated_form.save()
-            return redirect('index')
-    return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
+        passwordform=PasswordForm(request.POST)
+        password_temp=passwordform.data['password']
+
+        timeslot=DateTime.objects.get(pk=timeslot_id)
+        usertemp_obj=UserTemp.objects.get(time_temp=timeslot)
+
+        if int(usertemp_obj.password)==int(password_temp):
+            timeslot=DateTime.objects.get(pk=timeslot_id)
+            user=UserTemp.objects.get(time_temp=timeslot)
+            usertemp_form=UserTempForm(instance=user)
+            if request.method=="POST":
+                updated_form=UserTempForm(request.POST,instance=user) 
+                if updated_form.is_valid():
+                    updated_form.save()
+                    return redirect('index')
+            return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
+    return render(request,'password.html',{'passwordform':passwordform})
+
+
+# def advise(request,timeslot_id):
+#     timeslot=DateTime.objects.get(pk=timeslot_id)
+#     user=UserTemp.objects.get(time_temp=timeslot)
+#     usertemp_form=UserTempForm(instance=user)
+#     if request.method=="POST":
+#         updated_form=UserTempForm(request.POST,instance=user) 
+#         if updated_form.is_valid():
+#             updated_form.save()
+#             return redirect('index')
+#     return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
 
 def delete(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)

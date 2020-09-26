@@ -1,13 +1,20 @@
-{% for time in all_time %}
+{% for content in all_content %}
 
-//time.starttime , time.endtime을 어떤 형식으로 보낼 것인가?
-//시간 겹치는 것은 표현의 문제?
+<a href="{% url 'time_detail' content.id %}">
+    <div class="all_contents">
+    {{content.title}}
+    </div>
+</a>
+<br>
+{% endfor %}
+<br>
+<br>
+<br>
+{% for timeslot in all_timeslot %}
 
-<a href="{% url 'detail' time.starttime time.endtime %}">
-    <div class="all_times">
-    {{time.date}}
-    {{time.starttime}}
-    {{time.endtime}}
+<a href="{% url 'content_detail' timeslot.content.id %}">
+    <div class="all_timelsots">
+    {{timeslot.day_of_week}} {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.isUsed}}
     </div>
 </a>
 <br>

@@ -22,6 +22,7 @@ class DateTime(models.Model):
     date=models.DateField()
     starttime=models.TimeField()
     endtime=models.TimeField()
+    day_of_week=models.IntegerField()
     isUsed=models.BooleanField(default=False)
 
 class UserTemp(models.Model):

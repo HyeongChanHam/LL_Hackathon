@@ -23,6 +23,8 @@ class ContentForm(forms.Form):
 
     password=forms.IntegerField()
 
+class PasswordForm(forms.Form):
+    password=forms.IntegerField()
 
 class UserTempForm(forms.ModelForm):
 
