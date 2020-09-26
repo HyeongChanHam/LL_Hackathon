@@ -24,11 +24,16 @@ class ContentForm(forms.Form):
     password=forms.IntegerField()
 
 class PasswordForm(forms.Form):
-    password=forms.IntegerField()
+    password_temp=forms.IntegerField()
 
 class UserTempForm(forms.ModelForm):
 
     class Meta:
         model=UserTemp
         fields=('name','major','num_student','num_phone','num_account','password')
+
+class ContentAdviseForm(forms.ModelForm):
+    class Meta:
+        model=Content
+        fields=('creator','contact','title','department','reward','condition','detail','location')
 

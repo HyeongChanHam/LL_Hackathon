@@ -1,6 +1,6 @@
 {% for content in all_content %}
 
-<a href="{% url 'time_detail' content.id %}">
+<a href="{% url 'content_admin' content.id %}">
     <div class="all_contents">
     {{content.title}}
     </div>

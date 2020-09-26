@@ -1,0 +1,20 @@
+<form action="{% url 'content_revise' content_id %}" method="post">
+    {% csrf_token %}
+    {{content_form.as_p}}
+
+<input type="submit" value="OK">
+</form>
+
+
+
+{% for timeslot in time_slot %}
+
+<form action="{% url 'close' timeslot.id content_id%}" method="post">
+    {% csrf_token %}
+    <div class="timeslot">
+    <button type="submit" name="close" value="close" >막기</button>
+    {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}} 
+    <br>
+    </div>
+</form>
+{% endfor %}
