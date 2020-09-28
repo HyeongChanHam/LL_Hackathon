@@ -7,7 +7,7 @@
 
 
 
-{% for timeslot in time_slot %}
+{% for timeslot in timeslots %}
 
 <form action="{% url 'close' timeslot.id content_id%}" method="post">
     {% csrf_token %}

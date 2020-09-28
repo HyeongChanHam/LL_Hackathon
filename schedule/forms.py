@@ -32,7 +32,7 @@ class UserTempForm(forms.ModelForm):
         model=UserTemp
         fields=('name','major','num_student','num_phone','num_account','password')
 
-class ContentAdviseForm(forms.ModelForm):
+class ContentReviseForm(forms.ModelForm):
     class Meta:
         model=Content
         fields=('creator','contact','title','department','reward','condition','detail','location')

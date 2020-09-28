@@ -1,4 +1,4 @@
-{% for content in all_content %}
+{% for content in all_contents %}
 
 <a href="{% url 'content_admin' content.id %}">
     <div class="all_contents">
@@ -10,7 +10,7 @@
 <br>
 <br>
 <br>
-{% for timeslot in all_timeslot %}
+{% for timeslot in all_timeslots %}
 
 <a href="{% url 'content_detail' timeslot.content.id %}">
     <div class="all_timelsots">

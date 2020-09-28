@@ -1,13 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Content,DateTime,UserTemp
-from .forms import ContentForm,UserTempForm,PasswordForm,ContentAdviseForm
+from .forms import ContentForm,UserTempForm,PasswordForm,ContentReviseForm
 from datetime import datetime,timedelta,time,date
 
 # Create your views here.
 def index(request):
-    all_content=Content.objects.all()
-    all_timeslot=DateTime.objects.filter(isUsed=False)
-    return render(request,'index.html',{'all_content':all_content,'all_timeslot':all_timeslot})
+    all_contents=Content.objects.all()
+    all_timeslots=DateTime.objects.filter(isUsed=False)
+    return render(request,'index.html',{'all_contents':all_contents,'all_timeslots':all_timeslots})
 
 def create(request):
     if request.method=='POST':
@@ -33,7 +33,7 @@ def create(request):
 
 def content_detail(request,content_id):
     content=Content.objects.filter(pk=content_id)
-    return render(request,'content_detail.html',{'contents':content})
+    return render(request,'content_detail.html',{'content':content})
 
 def enrollment(request,timeslot_id):
     if request.method=='POST':
@@ -58,9 +58,9 @@ def enrollment(request,timeslot_id):
 
 def time_detail(request,content_id):
     content=get_object_or_404(Content,pk=content_id)
-    time_slots=DateTime.objects.all()
-    time_slot=time_slots.filter(content=content_id)
-    return render(request,'time_detail.html',{'time_slot':time_slot})
+    all_timeslots=DateTime.objects.all()
+    timeslots=all_timeslots.filter(content=content_id)
+    return render(request,'time_detail.html',{'timeslots':timeslots})
 
 
 def content_admin(request,content_id):
@@ -72,21 +72,21 @@ def content_admin(request,content_id):
         content=Content.objects.get(pk=content_id)
         if int(content.password)==int(password_temp):
             content=get_object_or_404(Content,pk=content_id)
-            time_slots=DateTime.objects.all()
-            time_slot=time_slots.filter(content=content_id)
-            content_form=ContentAdviseForm(instance=content)
+            all_timeslots=DateTime.objects.all()
+            timeslots=all_timeslots.filter(content=content_id)
+            content_form=ContentReviseForm(instance=content)
             # if request.method=="POST":
             #     updated_form=ContentAdviseForm(request.POST,instance=content) 
             #     if updated_form.is_valid():
             #         content.title=updated_form.data['title']
             #         content.save()
             #         return redirect('index')
-            return render(request,'time_detail_for_creator.html',{'time_slot':time_slot,'content_form':content_form,'content_id':content.id})
+            return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
         else:
-            return render(request,'content_admin.html',{'passwordform':passwordform,'content_id':content_id})
-    return render(request,'content_admin.html',{'passwordform':passwordform,'content_id':content_id})
+            return render(request,'password_content.html',{'passwordform':passwordform,'content_id':content_id})
+    return render(request,'password_content.html',{'passwordform':passwordform,'content_id':content_id})
 
-def password(request,timeslot_id):
+def time_admin(request,timeslot_id):
     passwordform=PasswordForm()
     if request.method=="POST":
         passwordform=PasswordForm(request.POST)
@@ -96,7 +96,7 @@ def password(request,timeslot_id):
         try:
             usertemp_obj=UserTemp.objects.get(time_temp=timeslot)
         except:
-            return render(request,'password.html',{'passwordform':passwordform})
+            return render(request,'password_time.html',{'passwordform':passwordform})
 
         if int(usertemp_obj.password)==int(password_temp):
             timeslot=DateTime.objects.get(pk=timeslot_id)
@@ -107,15 +107,15 @@ def password(request,timeslot_id):
             #     if updated_form.is_valid():
             #         updated_form.save()
             #         return redirect('index')
-            return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
+            return render(request,'usertemp_revise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
         else:
-            return render(request,'password.html',{'passwordform':passwordform})
-    return render(request,'password.html',{'passwordform':passwordform})
+            return render(request,'password_time.html',{'passwordform':passwordform})
+    return render(request,'password_time.html',{'passwordform':passwordform})
 
 def content_revise(request,content_id):
     content=Content.objects.get(pk=content_id)
     if request.method=="POST":
-            updated_form=ContentAdviseForm(request.POST,instance=content) 
+            updated_form=ContentReviseForm(request.POST,instance=content) 
             if updated_form.is_valid():
                     content.title=updated_form.data['title']
                     content.contact=updated_form.data['contact']
@@ -161,15 +161,15 @@ def delete(request,timeslot_id):
 def close(request,timeslot_id,content_id):
     if request.method=="POST": 
         content=get_object_or_404(Content,pk=content_id)
-        time_slots=DateTime.objects.all()
-        time_slot=time_slots.filter(content=content_id)
-        content_form=ContentAdviseForm(instance=content)    
+        all_timeslots=DateTime.objects.all()
+        timeslots=all_timeslots.filter(content=content_id)
+        content_form=ContentReviseForm(instance=content)    
         
         timeslot=DateTime.objects.get(pk=timeslot_id)
         if timeslot.isUsed==False:
             timeslot.isUsed=True
             timeslot.save()
-        return render(request,'time_detail_for_creator.html',{'time_slot':time_slot,'content_form':content_form,'content_id':content.id})
+        return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
         
 
 
