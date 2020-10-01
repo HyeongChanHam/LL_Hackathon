@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Content,DateTime,UserTemp
-from .forms import ContentForm,UserTempForm,PasswordForm,ContentReviseForm
+from .forms import ContentForm,UserTempForm,PasswordForm,ContentReviseForm,TimeMakingForm
 from datetime import datetime,timedelta,time,date
 
 # Create your views here.
@@ -13,7 +13,7 @@ def create(request):
     if request.method=='POST':
         form=ContentForm(request.POST)
         if form.is_valid():
-            obj_content=Content(creator=form.data['creator'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
+            obj_content=Content(creator=form.data['creator'],creator_key=forms.data['creator_key'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
             obj_content.save()
             num_people=int(form.data['num_people'])
             runningdate=int(form.data['runningdate'])
@@ -54,7 +54,7 @@ def enrollment(request,timeslot_id):
     if timeslot.isUsed==False:
         return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot.id})
     if timeslot.isUsed==True:
-        return redirect('password',timeslot.id)
+        return redirect('time_admin',timeslot.id)
 
 def time_detail(request,content_id):
     content=get_object_or_404(Content,pk=content_id)
@@ -149,7 +149,28 @@ def time_revise(request,timeslot_id):
 #             return redirect('index')
 #     return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
 
-def delete(request,timeslot_id):
+def time_make(request,timeslot_id,content_id):
+    content=get_object_or_404(Content,pk=content_id)
+    all_timeslots=DateTime.objects.all()
+    timeslots=all_timeslots.filter(content=content_id)
+    content_form=ContentReviseForm(instance=content)     
+
+    timeslot=DateTime.objects.get(pk=timeslot_id)
+    timetemp_form=TimeMakingForm(instance=timeslot)
+    if request.method=="POST":
+        updated_form=TimeMakingForm(request.POST,instance=timeslot)
+        if updated_form.is_valid():
+            updated_form.save()
+            return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
+    return render(request, 'time_make.html',{'timetemp_form':timetemp_form})
+
+def content_delete(request,content_id):
+    content=Content.objects.get(pk=content_id)
+    content.delete()
+
+    return redirect('index')
+
+def time_delete(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)
     timeslot.isUsed=False
     timeslot.save()

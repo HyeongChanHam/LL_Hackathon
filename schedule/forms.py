@@ -4,6 +4,7 @@ import datetime
 
 class ContentForm(forms.Form):
     creator=forms.CharField(max_length=50)
+    creator_key=forms.IntegerField()
     contact=forms.CharField(widget=forms.Textarea)
 
     title=forms.CharField(max_length=50)
@@ -31,6 +32,11 @@ class UserTempForm(forms.ModelForm):
     class Meta:
         model=UserTemp
         fields=('name','major','num_student','num_phone','num_account','password')
+
+class TimeMakingForm(forms.ModelForm):
+    class Meta:
+        model=DateTime
+        fields=('starttime','endtime')
 
 class ContentReviseForm(forms.ModelForm):
     class Meta:

@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class Content(models.Model):
     creator=models.CharField(max_length=50)
+    creator_key=models.IntegerField()
     contact=models.TextField()
 
     title=models.CharField(max_length=50)

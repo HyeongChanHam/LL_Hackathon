@@ -6,6 +6,10 @@
 </form>
 
 
+<a href="{% url 'content_delete' content_id %}">
+    <button>제작취소</button>
+</a>
+
 
 {% for timeslot in timeslots %}
 
@@ -13,8 +17,16 @@
     {% csrf_token %}
     <div class="timeslot">
     <button type="submit" name="close" value="close" >막기</button>
+</form>
+
+<form action="{% url 'time_make' timeslot.id content_id%}" method="post">
+    {% csrf_token %}
+    <div class="timeslot">
+    <button type="submit" name="close" value="close" >수정</button>
+</form>
+
     {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}} 
     <br>
     </div>
-</form>
+
 {% endfor %}
