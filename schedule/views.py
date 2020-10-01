@@ -13,7 +13,7 @@ def create(request):
     if request.method=='POST':
         form=ContentForm(request.POST)
         if form.is_valid():
-            obj_content=Content(creator=form.data['creator'],creator_key=forms.data['creator_key'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
+            obj_content=Content(creator=form.data['creator'],creator_key=form.data['creator_key'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
             obj_content.save()
             num_people=int(form.data['num_people'])
             runningdate=int(form.data['runningdate'])
@@ -162,7 +162,10 @@ def time_make(request,timeslot_id,content_id):
         if updated_form.is_valid():
             updated_form.save()
             return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
-    return render(request, 'time_make.html',{'timetemp_form':timetemp_form})
+    if timeslot.isUsed==False:
+        return render(request, 'time_make.html',{'timetemp_form':timetemp_form})
+    else:
+        return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
 
 def content_delete(request,content_id):
     content=Content.objects.get(pk=content_id)
