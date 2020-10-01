@@ -64,7 +64,7 @@ def enrollment(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)
     usertemp=UserTempForm()
     if timeslot.isUsed==False:
-        return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot})
+        return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot}) #timeslot.id에서 timeslot으로 수정
     if timeslot.isUsed==True:
         return redirect('time_admin',timeslot.id)
 
@@ -72,7 +72,7 @@ def time_detail(request,content_id):
     content=get_object_or_404(Content,pk=content_id)
     all_timeslots=DateTime.objects.all()
     timeslots=all_timeslots.filter(content=content_id)
-    return render(request,'time_detail.html',{'timeslots':timeslots, 'content_id':content_id})
+    return render(request,'time_detail.html',{'timeslots':timeslots, 'content_id':content_id}) #content_id추가
 
 
 def content_admin(request,content_id):
@@ -119,7 +119,7 @@ def time_admin(request,timeslot_id):
             #     if updated_form.is_valid():
             #         updated_form.save()
             #         return redirect('index')
-            return render(request,'usertemp_revise.html',{'usertemp':usertemp_form,'timeslot':timeslot})
+            return render(request,'usertemp_revise.html',{'usertemp':usertemp_form,'timeslot':timeslot}) #timeslot.id에서 timeslot
         else:
             return render(request,'password_time.html',{'passwordform':passwordform})
     return render(request,'password_time.html',{'passwordform':passwordform})
@@ -174,7 +174,12 @@ def time_make(request,timeslot_id,content_id):
         if updated_form.is_valid():
             updated_form.save()
             return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
-    return render(request, 'time_make.html',{'timetemp_form':timetemp_form,'timeslot':timeslot})
+
+    if timeslot.isUsed==False:
+        return render(request, 'time_make.html',{'timetemp_form':timetemp_form, 'timeslot':timeslot}) #timeslot도 받아오기
+    else:
+        return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
+
 
 def content_delete(request,content_id):
     content=Content.objects.get(pk=content_id)
