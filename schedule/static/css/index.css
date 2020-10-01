@@ -1,32 +1,48 @@
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); 
 .nanumgothic * { font-family: 'Nanum Gothic', sans-serif; }
 
-.body{
-    margin-top: 5vh;
-    margin-left: 5vw;
-    margin-right:5vw;
+.timetable{
+    width: 100vw;
 }
 
 .title{
-    margin-top: 5vh;
+    padding: 6.6vh;
+    height:20vh;
     font-family: "Nanum Gothic", sans-serif;
     text-align: center;
+    font-weight: bold;
+    font-size: 50px;
 }
 
 .weekdate{
     font-family: "Nanum Gothic", sans-serif;
     text-align: right;
+    margin-right:5vw;
 }
 
-.logo{
-    width:100%;
-}
-
-.timetable{
-    flex-direction: row;
-
-}
-
-.sunday, .monday, .tuesday, .wednesday, .thursday, .friday, .saturday{
+.weekofday{
+    width:12vw;
+    font-family: "Nanum Gothic", sans-serif;
+    margin-left:1%;
+    margin-right:1%;
+    margin-bottom: 3vh;
+    float: left;
     text-align: center;
+}
+
+.sunday{
+    color:red;
+}
+
+.saturday{
+    color:blue;
+}
+
+.timeslotbutton{
+    font-family: "Nanum Gothic", sans-serif;
+    border: 1px solid blue;
+    background-color: rgba(0,0,0,0);
+    color: blue;
+    padding: 10px;
+    width:13vw;
 }

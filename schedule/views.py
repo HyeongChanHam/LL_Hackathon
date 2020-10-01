@@ -7,7 +7,7 @@ from datetime import datetime,timedelta,time,date
 def index(request):
     all_contents=Content.objects.all()
     all_timeslots=DateTime.objects.all()
-
+    nowDate = datetime.now().strftime('%Y-%m-%d')
     monday_timeslots=DateTime.objects.filter(day_of_week=0)
     tuesday_timeslots=DateTime.objects.filter(day_of_week=1)
     wednesday_timeslots=DateTime.objects.filter(day_of_week=2)
@@ -19,7 +19,7 @@ def index(request):
     return render(request,'index.html',{'all_contents':all_contents,'all_timeslots':all_timeslots,
     'monday_timeslots':monday_timeslots,'tuesday_timeslots':tuesday_timeslots,
     'wednesday_timeslots':wednesday_timeslots,'thursday_timeslots':thursday_timeslots,
-    'friday_timeslots':friday_timeslots,'saturday_timeslots':saturday_timeslots,'sunday_timeslots':sunday_timeslots})
+    'friday_timeslots':friday_timeslots,'saturday_timeslots':saturday_timeslots,'sunday_timeslots':sunday_timeslots, 'nowDate':nowDate})
 
 def create(request):
     if request.method=='POST':
