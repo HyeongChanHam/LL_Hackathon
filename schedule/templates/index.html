@@ -1,21 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유니스트 실험 대신 전해드립니다</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+    <h1 class="title">유니스트 실험 대신 전해드립니다</h1>
+    <p class="weekdate">
+        <button class="w3-btn" onclick="plusDivs(-1)">&#10094; 이전</button>
+        날짜
+        <button class="w3-btn" onclick="plusDivs(1)">다음 &#10095;</button>
+    </p>
+
+    <div class="timetable">
+        <div class="sunday">
+            {% for timeslot in sunday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="sunday">
+            <h3>일요일!</h3>
+            {% for timeslot in sunday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="monday">
+            <h3>월요일!</h3>
+            {% for timeslot in monday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="tuesday">
+            <h3>화요일!</h3>
+            {% for timeslot in tuesday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="wednesday">
+            <h3>수요일!</h3>
+            {% for timeslot in wednesday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="thursday">
+            <h3>목요일!</h3>
+            {% for timeslot in thursday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="friday">
+            <h3>금요일!</h3>
+            {% for timeslot in friday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="saturday">
+            <h3>토요일!</h3>
+            {% for timeslot in saturday_timeslots %}
+            <div class="{{timeslot.content.title}}">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}</button>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <a href="{% url 'create' %}">add to click</a>
+
+</body>
+
 {% for content in all_contents %}
 
-<a href="{% url 'content_admin' content.id %}">
+<a href="{% url 'time_detail' content.id %}">
     <div class="all_contents">
     {{content.title}}
     </div>
 </a>
 <br>
 {% endfor %}
-<br>
-<br>
-<br>
+
 {% for timeslot in all_timeslots %}
 
 <a href="{% url 'content_detail' timeslot.content.id %}">
     <div class="all_timelsots">
-    {{timeslot.day_of_week}} {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.isUsed}}
+        {{timeslot.content.title}} {{timeslot.day_of_week}} {{timeslot.date}} {{timeslot.starttime}}
+        {{timeslot.endtime}} {{timeslot.isUsed}}
     </div>
 </a>
 <br>
 {% endfor %}
+
+
+<a href="{% url 'create' %}">add to click</a>

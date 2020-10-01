@@ -1,8 +1,41 @@
-{% for timeslot in timeslots %}
-<a href="{% url 'enrollment' timeslot.id %}">
-    <div class="timeslot">
-    {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}}
-    <br>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/time_detail.css' %}">
+</head>
+<body>
+    <div class="table">
+        {% for timeslot in timeslots %}
+        <div class="slot">
+            <div class="timeslot">
+            {{timeslot.date}} <br>{{timeslot.starttime}} ~ {{timeslot.endtime}}
+            <br>
+            </div>
+            {% if timeslot.isUsed == False %}
+            <a href="{% url 'enrollment' timeslot.id %}">
+                <div class="square">
+                    click here!
+                </div>
+            </a>
+            {% elif timeslot.isUsed == True %}
+            <a href="{% url 'enrollment' timeslot.id %}">
+                <div class="square_done">
+                    already done
+                </div>
+            </a>
+            {%endif%}
+        </div>
+        {% endfor %}
+
+        <!--주최자 수정 또안먹음 멋사4 타임 디테일에 들어있음-->
+        <a href="{% url 'content_admin' content_id %}">
+            주최자 수정
+        </a>
     </div>
-</a>
-{% endfor %}
+    
+</body>
+</html>

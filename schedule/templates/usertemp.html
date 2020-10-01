@@ -1,7 +1,23 @@
-<form action="" method="post">
-    {% csrf_token %}
-    {{usertemp.as_p}}
-
-    {{timeslot}}
-<input type="submit" value="OK">
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/usertemp.css' %}">
+</head>
+<body>
+    <div class="title">{{timeslot.content.title}}</div>
+    <div class="information">{{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}}</div>
+    <div class="form">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{usertemp.as_p}}
+        
+            {{timeslot.content.title}} / {{timeslot.date}}  신청하겠습니다.
+        <input type="submit" value="OK">
+        </form>
+    </div>
+</body>
+</html>

@@ -1,31 +1,34 @@
-from django import forms
 from .models import Content,DateTime,UserTemp
+from django import forms
 import datetime
 
+from django.utils.translation import gettext_lazy as _
+
 class ContentForm(forms.Form):
-    creator=forms.CharField(max_length=50)
+    title=forms.CharField(label="실험 제목",max_length=50)
+
+    creator=forms.CharField(label="실험 주최자",max_length=50)
     creator_key=forms.IntegerField()
-    contact=forms.CharField(widget=forms.Textarea)
+    contact=forms.CharField(label="연락처", widget=forms.Textarea(attrs={'placeholder':'전화번호와 이메일을 남겨주세요.','class':'contact'}))
 
-    title=forms.CharField(max_length=50)
-    department=forms.CharField(max_length=50)
+    department=forms.CharField(label="학부",max_length=50)
     
-    date=forms.DateTimeField(initial=datetime.datetime.now())
-    runningdate=forms.IntegerField()
+    date=forms.DateTimeField(label="실험 날짜",initial=datetime.datetime.now(),widget=forms.DateTimeInput(attrs={'placeholder':'실험 시작 날짜를 입력하세요.'}))
+    runningdate=forms.IntegerField(label="실험 진행 일수")
 
-    runningtime=forms.IntegerField()
-    location=forms.CharField(max_length=50)
+    runningtime=forms.IntegerField(label='한번 실험 걸리는 시간',widget=forms.NumberInput(attrs={'placeholder':'분 단위로 입력'}))
+    location=forms.CharField(label="지역",max_length=50)
 
-    num_people=forms.IntegerField()
-    reward=forms.CharField(max_length=50)
+    num_people=forms.IntegerField(label="실험 인원 수")
+    reward=forms.CharField(label="실험 보수",max_length=50)
 
-    condition=forms.CharField(widget=forms.Textarea)
-    detail=forms.CharField(widget=forms.Textarea)
+    condition=forms.CharField(label="실험 자격 조건",widget=forms.Textarea)
+    detail=forms.CharField(label="실험 설명",widget=forms.Textarea)
 
     password=forms.IntegerField()
 
 class PasswordForm(forms.Form):
-    password_temp=forms.IntegerField()
+    password_temp=forms.IntegerField(label="실험 신청 시 입력한 비밀번호")
 
 class UserTempForm(forms.ModelForm):
 
@@ -37,9 +40,29 @@ class TimeMakingForm(forms.ModelForm):
     class Meta:
         model=DateTime
         fields=('starttime','endtime')
+        labels={
+            'starttime': _('시작 시간'),
+            'endtime': _('끝나는 시간'),
+        }
+
+        widgets={
+            'starttime': forms.TimeInput(attrs={'class':'starttime'}),
+            'endtime': forms.TimeInput(attrs={'class':'endtime'})
+        }
 
 class ContentReviseForm(forms.ModelForm):
     class Meta:
         model=Content
         fields=('creator','contact','title','department','reward','condition','detail','location')
+
+        labels={
+            'creator': _('제작자'),
+            'contact': _('연락처'),
+            'title': _('실험 제목'),
+            'department': _('학부'),
+            'reward': _('보수'),
+            'condition': _('실험 자격'),
+            'detail': _('실험 상세 설명'),
+            'location': _('실험 장소'),
+        }
 

@@ -1,32 +1,58 @@
-<form action="{% url 'content_revise' content_id %}" method="post">
-    {% csrf_token %}
-    {{content_form.as_p}}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-<input type="submit" value="OK">
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href="{% static 'css/time_detail_for_creator.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
 
+<body>
+    <h3 class="title">{{content_title}}콘텐트 타이틀 안먹고있음</h3>
+    <div class="form">
+        <form action="{% url 'content_revise' content_id %}" method="post">
+            {% csrf_token %}
+            {{content_form.as_p}}
 
-<a href="{% url 'content_delete' content_id %}">
-    <button>제작취소</button>
-</a>
-
-
-{% for timeslot in timeslots %}
-
-<form action="{% url 'close' timeslot.id content_id%}" method="post">
-    {% csrf_token %}
-    <div class="timeslot">
-    <button type="submit" name="close" value="close" >막기</button>
-</form>
-
-<form action="{% url 'time_make' timeslot.id content_id%}" method="post">
-    {% csrf_token %}
-    <div class="timeslot">
-    <button type="submit" name="close" value="close" >수정</button>
-</form>
-
-    {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}} 
-    <br>
+            <input type="submit" value="OK">
+        </form>
     </div>
 
-{% endfor %}
+    <div class="cancel">
+        <a href="{% url 'content_delete' content_id %}">
+            <button>제작취소</button>
+        </a>
+    </div>
+
+    <div class="stop">
+        {% for timeslot in timeslots %}
+        <div class="timeslotinfo">
+            {{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}}
+        </div>
+        
+        <form action="{% url 'close' timeslot.id content_id%}" method="post">
+            {% csrf_token %}
+            <div class="timeslot">
+                <button type="submit" name="close" value="close">막기</button>
+            </div>
+        </form>
+
+        <form action="{% url 'time_make' timeslot.id content_id%}" method="post">
+            {% csrf_token %}
+            <div class="timeslot">
+                <button type="submit" name="close" value="close">수정</button>
+            </div>
+        </form>
+        <br>
+
+    {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

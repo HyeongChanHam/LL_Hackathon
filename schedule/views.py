@@ -6,14 +6,26 @@ from datetime import datetime,timedelta,time,date
 # Create your views here.
 def index(request):
     all_contents=Content.objects.all()
-    all_timeslots=DateTime.objects.filter(isUsed=False)
-    return render(request,'index.html',{'all_contents':all_contents,'all_timeslots':all_timeslots})
+    all_timeslots=DateTime.objects.all()
+
+    monday_timeslots=DateTime.objects.filter(day_of_week=0)
+    tuesday_timeslots=DateTime.objects.filter(day_of_week=1)
+    wednesday_timeslots=DateTime.objects.filter(day_of_week=2)
+    thursday_timeslots=DateTime.objects.filter(day_of_week=3)
+    friday_timeslots=DateTime.objects.filter(day_of_week=4)
+    saturday_timeslots=DateTime.objects.filter(day_of_week=5)
+    sunday_timeslots=DateTime.objects.filter(day_of_week=6)
+
+    return render(request,'index.html',{'all_contents':all_contents,'all_timeslots':all_timeslots,
+    'monday_timeslots':monday_timeslots,'tuesday_timeslots':tuesday_timeslots,
+    'wednesday_timeslots':wednesday_timeslots,'thursday_timeslots':thursday_timeslots,
+    'friday_timeslots':friday_timeslots,'saturday_timeslots':saturday_timeslots,'sunday_timeslots':sunday_timeslots})
 
 def create(request):
     if request.method=='POST':
         form=ContentForm(request.POST)
         if form.is_valid():
-            obj_content=Content(creator=form.data['creator'],creator_key=forms.data['creator_key'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
+            obj_content=Content(creator=form.data['creator'],creator_key=form.data['creator_key'],contact=form.data['contact'],title=form.data['title'],department=form.data['department'],location=form.data['location'],reward=form.data['reward'],condition=form.data['condition'],detail=form.data['detail'],password=form.data['password'])
             obj_content.save()
             num_people=int(form.data['num_people'])
             runningdate=int(form.data['runningdate'])
@@ -52,7 +64,7 @@ def enrollment(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)
     usertemp=UserTempForm()
     if timeslot.isUsed==False:
-        return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot.id})
+        return render(request,'usertemp.html',{'usertemp':usertemp,'timeslot':timeslot})
     if timeslot.isUsed==True:
         return redirect('time_admin',timeslot.id)
 
@@ -60,7 +72,7 @@ def time_detail(request,content_id):
     content=get_object_or_404(Content,pk=content_id)
     all_timeslots=DateTime.objects.all()
     timeslots=all_timeslots.filter(content=content_id)
-    return render(request,'time_detail.html',{'timeslots':timeslots})
+    return render(request,'time_detail.html',{'timeslots':timeslots, 'content_id':content_id})
 
 
 def content_admin(request,content_id):
@@ -107,7 +119,7 @@ def time_admin(request,timeslot_id):
             #     if updated_form.is_valid():
             #         updated_form.save()
             #         return redirect('index')
-            return render(request,'usertemp_revise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
+            return render(request,'usertemp_revise.html',{'usertemp':usertemp_form,'timeslot':timeslot})
         else:
             return render(request,'password_time.html',{'passwordform':passwordform})
     return render(request,'password_time.html',{'passwordform':passwordform})
@@ -162,7 +174,7 @@ def time_make(request,timeslot_id,content_id):
         if updated_form.is_valid():
             updated_form.save()
             return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
-    return render(request, 'time_make.html',{'timetemp_form':timetemp_form})
+    return render(request, 'time_make.html',{'timetemp_form':timetemp_form,'timeslot':timeslot})
 
 def content_delete(request,content_id):
     content=Content.objects.get(pk=content_id)
@@ -190,7 +202,7 @@ def close(request,timeslot_id,content_id):
         if timeslot.isUsed==False:
             timeslot.isUsed=True
             timeslot.save()
-        return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
+        return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form, 'content_id':content.id})
         
 
 
