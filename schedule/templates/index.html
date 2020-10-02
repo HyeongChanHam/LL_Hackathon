@@ -24,7 +24,7 @@
     <h1 class="title">유니스트 실험 대신 전해드립니다</h1>
     <p class="weekdate">
         <button class="w3-btn" onclick="plusDivs(-1)">&#10094; 이전</button>
-        {{nowDate}} ~ 
+        {{nowDate}} ~ {{dow}}
         <button class="w3-btn" onclick="plusDivs(1)">다음 &#10095;</button>
     </p>
     
@@ -32,7 +32,7 @@
         <div class="weekofday sunday">
             <h3>일요일</h3>
             {% for timeslot in sunday_timeslots %}
-            {% if timeslot.starttime == '9 a.m' %}
+            {% if timeslot.starttime == 9 %}
             <div class="timeslot {{timeslot.content.title}} oclock9 ">
                 <a href="{% url 'enrollment' timeslot.id %}">
                     <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>

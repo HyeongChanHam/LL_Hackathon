@@ -6,8 +6,9 @@ from datetime import datetime,timedelta,time,date
 # Create your views here.
 def index(request):
     all_contents=Content.objects.all()
-    all_timeslots=DateTime.objects.all()
     nowDate = datetime.now().strftime('%Y-%m-%d')
+    all_timeslots=DateTime.objects.all()
+    
     monday_timeslots=DateTime.objects.filter(day_of_week=0)
     tuesday_timeslots=DateTime.objects.filter(day_of_week=1)
     wednesday_timeslots=DateTime.objects.filter(day_of_week=2)

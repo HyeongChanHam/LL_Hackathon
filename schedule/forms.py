@@ -35,6 +35,17 @@ class UserTempForm(forms.ModelForm):
     class Meta:
         model=UserTemp
         fields=('name','major','num_student','num_phone','num_account','password')
+        labels={
+            'name': _('이름'),
+            'major': _('전공'),
+            'num_student': _('학번'),
+            'num_phone': _('전화번호'),
+            'num_account': _('계좌번호'),
+            'password':_('비밀번호'),
+        }
+        widgets={
+            'password': forms.NumberInput(attrs={'placeholder':'이후 신청 수정 시 필요'})
+        }
 
 class TimeMakingForm(forms.ModelForm):
     class Meta:
