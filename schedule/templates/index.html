@@ -27,92 +27,624 @@
         {{nowDate}} ~ {{dow}}
         <button class="w3-btn" onclick="plusDivs(1)">다음 &#10095;</button>
     </p>
-    
+
     <div class="timetable">
         <div class="weekofday sunday">
             <h3>일요일</h3>
             {% for timeslot in sunday_timeslots %}
-            {% if timeslot.starttime == 9 %}
-            <div class="timeslot {{timeslot.content.title}} oclock9 ">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
             {% endif %}
-
             {% endfor %}
         </div>
         <div class="weekofday monday">
             <h3>월요일</h3>
             {% for timeslot in monday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time{{timeslot.starttime}}">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         <div class="weekofday tuesday">
             <h3>화요일</h3>
             {% for timeslot in tuesday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time{{timeslot.starttime}}">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         <div class="weekofday wednesday">
             <h3>수요일</h3>
             {% for timeslot in wednesday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time{{timeslot.starttime}}">
+
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         <div class="weekofday thursday">
             <h3>목요일</h3>
             {% for timeslot in thursday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time{{timeslot.starttime}}">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         <div class="weekofday friday">
             <h3>금요일</h3>
             {% for timeslot in friday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         <div class="weekofday saturday">
             <h3>토요일</h3>
             {% for timeslot in saturday_timeslots %}
-            <div class="timeslot {{timeslot.content.title}} time{{timeslot.starttime}}">
+            {% if timeslot.starttime|date:"h" == '09' %}
+            <div class="timeslot {{timeslot.content.title}} nine">
                 <a href="{% url 'enrollment' timeslot.id %}">
-                    <button type="button" class="timeslotbutton">{{timeslot.content.title}} {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
                 </a>
             </div>
+
+            {% elif timeslot.starttime|date:"h" == '10' %}
+            <div class="timeslot {{timeslot.content.title}} ten">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+
+            {% elif timeslot.starttime|date:"h" == '11' %}
+            <div class="timeslot {{timeslot.content.title}} eleven">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '12' %}
+            <div class="timeslot {{timeslot.content.title}} twelve">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '01' %}
+            <div class="timeslot {{timeslot.content.title}} thirteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '02' %}
+            <div class="timeslot {{timeslot.content.title}} fourteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '03' %}
+            <div class="timeslot {{timeslot.content.title}} fifteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '04' %}
+            <div class="timeslot {{timeslot.content.title}} sixteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '05' %}
+            <div class="timeslot {{timeslot.content.title}} seventeen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+
+            {% elif timeslot.starttime|date:"h" == '06' %}
+            <div class="timeslot {{timeslot.content.title}} eighteen">
+                <a href="{% url 'enrollment' timeslot.id %}">
+                    <button type="button" class="timeslotbutton">{{timeslot.content.title}}
+                        {{timeslot.starttime}}</button>
+                </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
 
-    
-    {% for content in all_contents %}
-    <a href="{% url 'time_detail' content.id %}">
-        <div class="all_contents">
-            {{content.title}}
-        </div>
-    </a>
-    {% endfor %}
+    <div class="content">
+        {% for content in all_contents %}
+        <a href="{% url 'time_detail' content.id %}">
+            <div class="all_contents">
+                {{content.title}}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
 
+    <a href="{% url 'create' %}">add to click</a>
     <!--
 {% for timeslot in all_timeslots %}
 

@@ -8,7 +8,10 @@ def index(request):
     all_contents=Content.objects.all()
     nowDate = datetime.now().strftime('%Y-%m-%d')
     all_timeslots=DateTime.objects.all()
-    
+
+    for timeslot in all_timeslots:
+        timeslot.starttime=timeslot.starttime.strftime('%H:%M:%S')
+        
     monday_timeslots=DateTime.objects.filter(day_of_week=0)
     tuesday_timeslots=DateTime.objects.filter(day_of_week=1)
     wednesday_timeslots=DateTime.objects.filter(day_of_week=2)
