@@ -96,3 +96,8 @@
     position: absolute;
     top: 75vh;
 }
+
+.content{
+    margin:7vh;
+    text-align: center;
+}
