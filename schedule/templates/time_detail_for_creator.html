@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h3 class="title">{{content_title}}콘텐트 타이틀 안먹고있음</h3>
+    <h3 class="title">{{content_id}}콘텐트 타이틀 안먹고있음</h3>
     <div class="form">
         <form action="{% url 'content_revise' content_id %}" method="post">
             {% csrf_token %}
@@ -22,11 +22,19 @@
         </form>
     </div>
 
+    <form action="{% url 'content_delete' content_id%}" method="post">
+    {% csrf_token %}
     <div class="cancel">
-        <a href="{% url 'content_delete' content_id %}">
-            <button>제작취소</button>
-        </a>
+            <button type="submit" name="content_delete" value="content_delete">제작취소</button>
     </div>
+    </form>
+
+    <form action="{% url 'time_make' content_id%}" method="post">
+    {% csrf_token %}
+    <div class="time_make">
+            <button type="submit" name="time_make" value="time_make">시간추가</button>
+    </div>
+    </form>
 
     <div class="stop">
         {% for timeslot in timeslots %}
@@ -41,7 +49,7 @@
             </div>
         </form>
 
-        <form action="{% url 'time_make' timeslot.id content_id%}" method="post">
+        <form action="{% url 'time_revise' timeslot.id content_id%}" method="post">
             {% csrf_token %}
             <div class="timeslot">
                 <button type="submit" name="close" value="close">수정</button>

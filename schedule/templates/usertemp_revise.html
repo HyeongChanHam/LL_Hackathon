@@ -14,7 +14,7 @@
     <div class="info">{{timeslot.date}} <br>{{timeslot.starttime}} ~ {{timeslot.endtime}}</div>
 
     <div class="form">
-        <form action="{% url 'time_revise' timeslot.id %}" method="post">
+        <form action="{% url 'user_revise' timeslot.id %}" method="post">
             {% csrf_token %}
             {{usertemp.as_p}}
 

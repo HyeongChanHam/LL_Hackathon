@@ -50,6 +50,11 @@ class UserTempForm(forms.ModelForm):
 class TimeMakingForm(forms.ModelForm):
     class Meta:
         model=DateTime
+        fields=('date','starttime','endtime')
+
+class TimeRevisingForm(forms.ModelForm):
+    class Meta:
+        model=DateTime
         fields=('starttime','endtime')
         labels={
             'starttime': _('시작 시간'),

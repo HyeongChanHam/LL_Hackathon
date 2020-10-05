@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Content,DateTime,UserTemp
-from .forms import ContentForm,UserTempForm,PasswordForm,ContentReviseForm,TimeMakingForm
+from .forms import ContentForm,UserTempForm,PasswordForm,ContentReviseForm,TimeRevisingForm,TimeMakingForm
 from datetime import datetime,timedelta,time,date
 
 # Create your views here.
@@ -144,7 +144,7 @@ def content_revise(request,content_id):
                     content.save()
                     return redirect('index')
 
-def time_revise(request,timeslot_id):
+def user_revise(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)
     user=UserTemp.objects.get(time_temp=timeslot)
     usertemp_form=UserTempForm(instance=user)
@@ -165,7 +165,7 @@ def time_revise(request,timeslot_id):
 #             return redirect('index')
 #     return render(request,'usertemp_advise.html',{'usertemp':usertemp_form,'timeslot':timeslot.id})
 
-def time_make(request,timeslot_id,content_id):
+def time_revise(request,timeslot_id,content_id):
     content=get_object_or_404(Content,pk=content_id)
     all_timeslots=DateTime.objects.all()
     timeslots=all_timeslots.filter(content=content_id)
@@ -180,16 +180,17 @@ def time_make(request,timeslot_id,content_id):
             return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
 
     if timeslot.isUsed==False:
-        return render(request, 'time_make.html',{'timetemp_form':timetemp_form, 'timeslot':timeslot}) #timeslot도 받아오기
+        return render(request, 'time_revise.html',{'timetemp_form':timetemp_form, 'timeslot':timeslot}) #timeslot도 받아오기
     else:
         return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
 
 
 def content_delete(request,content_id):
-    content=Content.objects.get(pk=content_id)
-    content.delete()
+    if request.method=="POST":
+        content=Content.objects.get(pk=content_id)
+        content.delete()
 
-    return redirect('index')
+        return redirect('index')
 
 def time_delete(request,timeslot_id):
     timeslot=DateTime.objects.get(pk=timeslot_id)
@@ -200,6 +201,28 @@ def time_delete(request,timeslot_id):
 
     return redirect('index')
 
+def time_make(request,content_id):
+    if request.method=='POST':
+        form=TimeMakingForm()
+        return render(request,'time_make.html',{'form':form,'content_id':content_id})
+def time_make_save(request,content_id):
+    if request.method=='POST':
+        form=TimeMakingForm(request.POST)
+        if form.is_valid():
+            content=get_object_or_404(Content,pk=content_id)
+            all_timeslots=DateTime.objects.all()
+            timeslots=all_timeslots.filter(content=content_id)
+            content_form=ContentReviseForm(instance=content) 
+
+            content_temp=Content.objects.get(pk=content_id)
+            date_temp=form.data['date']
+            date=datetime.strptime(date_temp,'%Y-%m-%d')
+            dow=date.weekday()
+            obj_date=DateTime(content=content_temp,date=date,day_of_week=dow,starttime=form.data['starttime'],endtime=form.data['endtime'],isUsed=False)
+            obj_date.save()
+            
+            return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form, 'content_id':content.id})
+
 def close(request,timeslot_id,content_id):
     if request.method=="POST": 
         content=get_object_or_404(Content,pk=content_id)
@@ -209,8 +232,7 @@ def close(request,timeslot_id,content_id):
         
         timeslot=DateTime.objects.get(pk=timeslot_id)
         if timeslot.isUsed==False:
-            timeslot.isUsed=True
-            timeslot.save()
+            timeslot.delete()
         return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form, 'content_id':content.id})
         
 

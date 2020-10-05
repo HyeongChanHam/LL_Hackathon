@@ -30,6 +30,11 @@
 </head>
 
 <body>
+    {% for content in all_contents %}
+    <a href="{% url 'content_admin' content.id %}">
+    {{content.title}}
+    </a>
+    {% endfor %}
     <h1 class="title">유니스트 실험 대신 전해드립니다</h1>
     <script type="text/javascript">
         window.onload = function () {
