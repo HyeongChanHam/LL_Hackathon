@@ -1,0 +1,86 @@
+#id_1{
+    background-color: springgreen;
+}
+
+#id_2{
+    background-color: steelblue;
+}
+
+#id_3{
+    background-color: teal;
+}
+
+#id_4{
+    background-color: tomato;
+}
+
+#id_5{
+    background-color: violet;
+}
+
+#id_6{
+    background-color: yellow;
+}
+
+#id_7{
+    background-color: yellowgreen;
+}
+
+#id_8{
+    background-color: wheat;
+}
+
+#id_9{
+    background-color: thistle;
+}
+
+#id_10{
+    background-color: turquoise;
+}
+
+#id_11{
+    background-color: whitesmoke;
+}
+
+#id_12{
+    background-color: sandybrown;
+}
+
+#id_13{
+    background-color: royalblue;
+}
+
+#id_14{
+    background-color: salmon;
+}
+
+#id_15{
+    background-color: seagreen;
+}
+
+#id_16{
+    background-color: sienna;
+}
+
+#id_17{
+    background-color: skyblue;
+}
+
+#id_18{
+    background-color: springgreen;
+}
+
+#id_19{
+    background-color: thistle;
+}
+
+#id_20{
+    background-color: plum;
+}
+
+
+        $("#id_{{content.id}}").css('background-color',colorCode);
+
+        for (x in range(0,n-1)){
+            eList[x].style.color = colorCode;
+        }

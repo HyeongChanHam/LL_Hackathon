@@ -1,32 +1,42 @@
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); 
 .nanumgothic * { font-family: 'Nanum Gothic', sans-serif; }
 
-.timetable{
-    width: 100vw;
-}
-
 .title{
-    padding: 6.6vh;
+    padding: 6vh;
     height:20vh;
     font-family: "Nanum Gothic", sans-serif;
     text-align: center;
     font-weight: bold;
-    font-size: 50px;
+    z-index: 3;
+}
+
+.letter{
+    font-size: 70px;
+    transform:rotate(-4deg);
+    color:white;
+    text-shadow : -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
+    z-index: 2;
+}
+
+.timetable{
+    display: flex;
+    justify-content: space-around;
+    align-content: flex-start; 
+    z-index: 1;
 }
 
 .weekdate{
+    margin-top: 7vh;
     font-family: "Nanum Gothic", sans-serif;
     text-align: right;
-    margin-right:5vw;
+    height: 7vh;
+    background-color: powderblue;
 }
 
 .weekofday{
-    width:12vw;
+    justify-content: space-between;
     font-family: "Nanum Gothic", sans-serif;
-    margin-left:1%;
-    margin-right:1%;
-    margin-bottom: 3vh;
-    float: left;
+    flex-direction: column;
     text-align: center;
 }
 
@@ -37,67 +47,72 @@
 .saturday{
     color:blue;
 }
-
+.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday{
+    flex-grow:1;
+}
 .timeslotbutton{
     font-family: "Nanum Gothic", sans-serif;
-    border: 1px solid blue;
-    background-color: rgba(0,0,0,0);
-    color: blue;
+    border: 1px solid;
     padding: 10px;
     width:13vw;
+
+    flex-direction: column;
+    align-items: center;
 }
 
 .nine{
     position: absolute;
-    top:30vh;
+    top:37vh;
 }
 
 .ten{
     position: absolute;
-    top:35vh;
+    top:42vh;
 }
 
 .eleven{
     position: absolute;
-    top:40vh;
+    top:47vh;
 }
 
 .twelve{
     position: absolute;
-    top:45vh;
+    top:52vh;
 }
 
 .thirteen{
     position: absolute;
-    top:50vh;
+    top:57vh;
 }
 
 .fourteen{
     position: absolute;
-    top:55vh;
+    top:62vh;
 }
 
 .fifteen{
     position: absolute;
-    top:60vh;
+    top:67vh;
 }
 
 .sixteen{
     position: absolute;
-    top: 65vh;
+    top: 72vh;
 }
 
 .seventeen{
+    flex-direction: row;
     position: absolute;
-    top: 70vh;
+    top: 77vh;
 }
 
 .eighteen{
     position: absolute;
-    top: 75vh;
+    top: 82vh;
 }
 
+
 .content{
-    margin:7vh;
+    position: absolute;
     text-align: center;
 }

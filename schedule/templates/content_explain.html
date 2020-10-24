@@ -10,16 +10,16 @@
 </head>
 <body>
     <div class="content_detail">
-        <h2>{{timeslot.content.title}}</h2>
-        <p>주최자 : {{timeslot.content.creator}}</p>
-        <p>연락처 : {{timeslot.content.contact}}</p>
-        <p>위치 : {{timeslot.content.location}}</p>
+        <h2>{{content.title}}</h2>
+        <p>주최자 : {{content.creator}}</p>
+        <p>연락처 : {{content.contact}}</p>
+        <p>위치 : {{content.location}}</p>
         <br>
-        <a href="{% url 'enrollment' timeslot.id %}">클릭 here!</a>
+        <a href="{% url 'time_detail' content.id %}">클릭 here!</a>
     </div>
-    
     
 </body>
 </html>
+
 
 

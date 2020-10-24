@@ -6,11 +6,18 @@ from datetime import datetime,timedelta,time,date
 # Create your views here.
 def index(request):
     all_contents=Content.objects.all()
-    nowDate = datetime.now().strftime('%Y-%m-%d')
     all_timeslots=DateTime.objects.all()
 
+    running_time = []
     for timeslot in all_timeslots:
         timeslot.starttime=timeslot.starttime.strftime('%H:%M:%S')
+        timeslot.endtime = timeslot.endtime.strftime('%H:%M:%S')
+    #    running_time.append(int(timeslot.endtime[0:2])-int(timeslot.starttime[0:2])+(1/60)*abs(int(timeslot.endtime[3:5])-int(timeslot.starttime[3:5])))
+    lst=[]
+    for content in all_contents:
+        lst.append(content.id)
+
+
         
     monday_timeslots=DateTime.objects.filter(day_of_week=0)
     tuesday_timeslots=DateTime.objects.filter(day_of_week=1)
@@ -20,10 +27,11 @@ def index(request):
     saturday_timeslots=DateTime.objects.filter(day_of_week=5)
     sunday_timeslots=DateTime.objects.filter(day_of_week=6)
 
+
     return render(request,'index.html',{'all_contents':all_contents,'all_timeslots':all_timeslots,
     'monday_timeslots':monday_timeslots,'tuesday_timeslots':tuesday_timeslots,
     'wednesday_timeslots':wednesday_timeslots,'thursday_timeslots':thursday_timeslots,
-    'friday_timeslots':friday_timeslots,'saturday_timeslots':saturday_timeslots,'sunday_timeslots':sunday_timeslots, 'nowDate':nowDate})
+    'friday_timeslots':friday_timeslots,'saturday_timeslots':saturday_timeslots,'sunday_timeslots':sunday_timeslots,'running_time':running_time})
 
 def create(request):
     if request.method=='POST':
@@ -47,9 +55,15 @@ def create(request):
     content_form=ContentForm()
     return render(request,'create.html',{'content_form':content_form})
 
-def content_detail(request,content_id):
-    content=Content.objects.filter(pk=content_id)
-    return render(request,'content_detail.html',{'content':content})
+def content_detail(request,timeslot_id):
+    timeslot=get_object_or_404(DateTime,pk=timeslot_id)
+    all_timeslots=DateTime.objects.all()
+    timeslots=all_timeslots.filter(content=timeslot_id)
+    return render(request,'content_detail.html',{'timeslot':timeslot, 'timeslot_id':timeslot_id})
+
+def content_explain(request, content_id):
+    content=get_object_or_404(Content,pk=content_id)
+    return render(request,'content_explain.html',{'content':content, 'content_id':content_id})
 
 def enrollment(request,timeslot_id):
     if request.method=='POST':

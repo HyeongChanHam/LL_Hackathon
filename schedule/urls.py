@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import index,close,time_make,time_make_save,time_revise,content_delete,create,time_detail,enrollment,time_delete,content_detail,time_admin,content_admin,user_revise,content_revise
+from .views import content_explain,index,close,time_make,time_make_save,time_revise,content_delete,create,time_detail,enrollment,time_delete,content_detail,time_admin,content_admin,user_revise,content_revise
 
 urlpatterns=[
     path('',index,name='index'),
@@ -8,7 +8,8 @@ urlpatterns=[
     path('enrollment/<int:timeslot_id>/',enrollment,name='enrollment'),
 
     path('time_detail/<int:content_id>/',time_detail,name='time_detail'),
-    path('content_detail/<int:content_id>/',content_detail,name='content_detail'),
+    path('content_detail/<int:timeslot_id>/',content_detail,name='content_detail'),
+    path('content_explain/<int:content_id>/',content_explain,name='content_explain'),
 
     
     path('time_admin/<int:timeslot_id>/',time_admin,name='time_admin'),
