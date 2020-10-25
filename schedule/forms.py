@@ -8,15 +8,16 @@ class ContentForm(forms.Form):
     title=forms.CharField(label="실험 제목",max_length=50)
 
     creator=forms.CharField(label="실험 주최자",max_length=50)
-    creator_key=forms.IntegerField()
+    creator_key=forms.IntegerField(label="사용자 키",widget=forms.NumberInput(attrs={'placeholder':'학번 입력'}))
     contact=forms.CharField(label="연락처", widget=forms.Textarea(attrs={'placeholder':'전화번호와 이메일을 남겨주세요.','class':'contact'}))
 
     department=forms.CharField(label="학부",max_length=50)
     
-    date=forms.DateTimeField(label="실험 날짜",initial=datetime.datetime.now(),widget=forms.DateTimeInput(attrs={'placeholder':'실험 시작 날짜를 입력하세요.'}))
+    date=forms.DateTimeField(
+        label="실험 날짜",initial=datetime.datetime.now(),widget=forms.DateTimeInput(attrs={'class':'datetimepicker'}))
     runningdate=forms.IntegerField(label="실험 진행 일수")
 
-    runningtime=forms.IntegerField(label='한번 실험 걸리는 시간',widget=forms.NumberInput(attrs={'placeholder':'분 단위로 입력'}))
+    runningtime=forms.IntegerField(label='한번 실험 걸리는 시간',widget=forms.NumberInput(attrs={'placeholder':'분 단위로 입력','class':'timepicker'}))
     location=forms.CharField(label="지역",max_length=50)
 
     num_people=forms.IntegerField(label="실험 인원 수")
@@ -44,7 +45,8 @@ class UserTempForm(forms.ModelForm):
             'password':_('비밀번호'),
         }
         widgets={
-            'password': forms.NumberInput(attrs={'placeholder':'이후 신청 수정 시 필요'})
+            'password': forms.NumberInput(attrs={'placeholder':'이후 신청 수정 시 필요'}),
+            'num_account': forms.NumberInput(attrs={'placeholder':'경남은행 계좌 입력'})
         }
 
 class TimeMakingForm(forms.ModelForm):

@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import content_explain,index,close,time_make,time_make_save,time_revise,content_delete,create,time_detail,enrollment,time_delete,content_detail,time_admin,content_admin,user_revise,content_revise
+from .views import maker,content_explain,index,close,time_make,time_make_save,time_revise,content_delete,create,time_detail,enrollment,time_delete,content_detail,time_admin,content_admin,user_revise,content_revise
 
 urlpatterns=[
     path('',index,name='index'),
@@ -22,4 +22,6 @@ urlpatterns=[
     path('close/<int:timeslot_id>/<int:content_id>/',close,name='close'),
     path('time_make/<int:content_id>/',time_make,name='time_make'),
     path('time_make_save/<int:content_id>/',time_make_save,name='time_make_save'),
+
+    path('maker/',maker, name='maker'),
 ]

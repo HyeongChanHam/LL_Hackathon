@@ -9,7 +9,6 @@
 </head>
 <body>
     <div class="table">
-        <h3>{{timeslot.content.id}}</h3>
         {% for timeslot in timeslots %}
         <div class="slot">
             <div class="timeslot">
@@ -19,13 +18,13 @@
             {% if timeslot.isUsed == False %}
             <a href="{% url 'enrollment' timeslot.id %}">
                 <div class="square">
-                    click here!
+                    실험 신청하기
                 </div>
             </a>
             {% elif timeslot.isUsed == True %}
             <a href="{% url 'enrollment' timeslot.id %}">
                 <div class="square_done">
-                    already done
+                    이미 신청된 실험입니다.
                 </div>
             </a>
             {%endif%}

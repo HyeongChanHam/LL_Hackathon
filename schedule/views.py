@@ -198,6 +198,8 @@ def time_revise(request,timeslot_id,content_id):
     else:
         return render(request,'time_detail_for_creator.html',{'timeslots':timeslots,'content_form':content_form,'content_id':content.id})
 
+def maker(request):
+    return render(request, 'maker.html')
 
 def content_delete(request,content_id):
     if request.method=="POST":

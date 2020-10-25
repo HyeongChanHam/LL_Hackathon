@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h3 class="title">{{content_id}}콘텐트 타이틀 안먹고있음</h3>
+    <h3 class="title">{{timeslot.content.title}}</h3>
     <div class="form">
         <form action="{% url 'content_revise' content_id %}" method="post">
             {% csrf_token %}

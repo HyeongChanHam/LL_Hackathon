@@ -1,21 +1,61 @@
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); 
 .nanumgothic * { font-family: 'Nanum Gothic', sans-serif; }
 
+.h3{
+    margin-top:2vh;
+    border:1px solid white;
+
+    font-size: 40px;
+}
+.calendar{
+    background-color: cadetblue;
+    margin-top: 0%;
+    height:100vh;
+}
 .title{
-    padding: 6vh;
-    height:20vh;
-    font-family: "Nanum Gothic", sans-serif;
+    background-color: powderblue;
+    height:25vh;
+    font-family: 'Black Han Sans', sans-serif;
     text-align: center;
-    font-weight: bold;
     z-index: 3;
 }
 
 .letter{
+    padding-top: 6vh;
+    vertical-align: middle;
     font-size: 70px;
-    transform:rotate(-4deg);
-    color:white;
-    text-shadow : -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
     z-index: 2;
+}
+
+body{
+    margin:0;
+}
+
+.nav-container{
+    font-family: 'Nanum Gothic', sans-serif; 
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin:0;
+    padding 0;
+    background-color: #5f83a0;
+    list-style-type: none;
+    text-align:right;
+}
+
+.nav-item, .nav-item-date{
+    float:right;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.nav-item a, .nav-item span, .nav-item-date, .nav-item button{
+    text-align: center;
+    text-decoration: none;
+    color:white;
+}
+.nav-item a, .nav-item-date, .nav-item span{
+    font-weight: lighter;
 }
 
 .timetable{
@@ -30,7 +70,6 @@
     font-family: "Nanum Gothic", sans-serif;
     text-align: right;
     height: 7vh;
-    background-color: powderblue;
 }
 
 .weekofday{
@@ -38,6 +77,7 @@
     font-family: "Nanum Gothic", sans-serif;
     flex-direction: column;
     text-align: center;
+    color:white;
 }
 
 .sunday{
@@ -52,67 +92,82 @@
 }
 .timeslotbutton{
     font-family: "Nanum Gothic", sans-serif;
+    font-weight: bold;
+    font-size:17px;
     border: 1px solid;
-    padding: 10px;
-    width:13vw;
-
-    flex-direction: column;
+    width:14.25vw;
+    border-radius: 5%;
+    color:white;
     align-items: center;
+    overflow: auto;
 }
 
+
 .nine{
+    flex-direction: row;
     position: absolute;
-    top:37vh;
+    top:40vh;
 }
 
 .ten{
+    flex-direction: row;
     position: absolute;
-    top:42vh;
+    top:45vh;
 }
 
 .eleven{
+    flex-direction: row;
     position: absolute;
-    top:47vh;
+    top:50vh;
 }
 
 .twelve{
+    flex-direction: row;
     position: absolute;
-    top:52vh;
+    top:55vh;
 }
 
 .thirteen{
+    flex-direction: row;
     position: absolute;
-    top:57vh;
+    top:60vh;
 }
 
 .fourteen{
+    flex-direction: row;
     position: absolute;
-    top:62vh;
+    top:65vh;
 }
 
 .fifteen{
+    flex-direction: row;
     position: absolute;
-    top:67vh;
+    top:70vh;
 }
 
 .sixteen{
+    flex-direction: row;
     position: absolute;
-    top: 72vh;
+    top:75vh;
 }
 
 .seventeen{
     flex-direction: row;
     position: absolute;
-    top: 77vh;
+    top:80vh;
 }
 
 .eighteen{
+    flex-direction: row;
     position: absolute;
-    top: 82vh;
+    top:85vh;
 }
 
 
 .content{
-    position: absolute;
+    background-color: cadetblue;
+    height: 100vh;
+    flex-direction: row;
+    padding-top:7vh;
     text-align: center;
 }

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>유니스트 실험 대신 전해드립니다</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -18,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
+
     <script>
         window.currentUser = { currentDay : new Date()};
         function showPopup(x) {
@@ -57,7 +60,6 @@
             $(".sixteen").css("display", "none");
             $(".seventeen").css("display", "none");
             $(".eighteen").css("display", "none");
-            console.log(thisWeek);
 
             for (var w = 0; w < 7; w++) {
                 var eDate = document.querySelectorAll("#id_" + thisWeek[w]);
@@ -66,6 +68,7 @@
                     eDate[y].style.display = 'block';
                 }
             }
+            return thisWeek;
         }
 
         function lastWeek(today){
@@ -82,12 +85,7 @@
             return today;
         }
     </script>
-    <style>
-        .title {
-            background-image : url("{% static 'image/slogan.png' %}");
-            transform: rotate(4deg);
-        }
-    </style>
+
 </head>
 
 <body>
@@ -114,21 +112,29 @@
                     content = 1;
                     document.getElementById('change').innerHTML = '캘린더 별로 보기'
                 }
+
             }
+            
         };
     </script>
 
-    <div class="weekdate">
-        <a href="{% url 'create' %}" class = "creator">add to click</a>
-        <span id="change">캘린더로 보기</span>
-        <button type="button" onclick="myFunction(lastWeek(window.currentUser.currentDay));">&#10094; 이전</button>
-        <button type="button" onclick="myFunction(nextWeek(window.currentUser.currentDay));">다음 &#10095;</button>
-    </div>
-
+    <nav class="nav-container">
+        <li class="nav-item"><a href="{% url 'create' %}" class = "creator">실험 주최하기</a></li>
+        <li class="nav-item"><span id="change">캘린더로 보기</span></li>
+        <li class="nav-item"><a href="{% url 'maker' %}">제작자 소개</a></li>
+        <li class="nav-item"><button type="button" class="btn btn-outline-warning" onclick="myFunction(lastWeek(window.currentUser.currentDay));">&#10094; 이전</button></li>
+        <li class="nav-item-date">
+            <script>
+                var thiswk= myFunction(window.currentUser.currentDay);
+                document.write(thiswk[0]+'~'+thiswk[6]);
+            </script>
+        </li>
+        <li class="nav-item"><button type="button" class="btn btn-outline-warning" onclick="myFunction(nextWeek(window.currentUser.currentDay));">다음 &#10095;</button></li>
+    </nav>
     <div class="calendar">
         <div class="timetable">
             <div class="weekofday sunday">
-                <h3>일요일</h3>
+                <div class="h3">일요일</div>
                 {% for timeslot in sunday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class="nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
@@ -138,8 +144,16 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                            if(time_slots.length>1){
+                                for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.width=(time_slots[i].style.width)/time_slots.length;
+                            }
+                            }
                         </script>
                 </div>
 
@@ -152,8 +166,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -166,8 +183,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -180,8 +200,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -194,8 +217,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -208,8 +234,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -222,8 +251,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -236,8 +268,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -250,8 +285,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -264,8 +302,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
                 {% endif %}
@@ -273,7 +314,7 @@
             </div>
 
             <div class="weekofday monday">
-                <h3>월요일</h3>
+                <div class="h3">월요일</div>
                 {% for timeslot in monday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class=" nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
@@ -284,8 +325,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
 
                 </div>
@@ -299,8 +343,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
 
                 </div>
@@ -314,8 +361,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -328,8 +378,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -342,8 +395,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
 
                 </div>
@@ -357,8 +413,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -371,8 +430,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -385,8 +447,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -399,8 +464,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -413,8 +481,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
                 {% endif %}
@@ -422,7 +493,7 @@
             </div>
 
             <div class="weekofday tuesday">
-                <h3>화요일</h3>
+                <div class="h3">화요일</div>
                 {% for timeslot in tuesday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class=" nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
@@ -433,8 +504,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
 
                 </div>
@@ -448,8 +522,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -462,8 +539,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -476,8 +556,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -490,8 +573,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -504,8 +590,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -518,8 +607,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -532,8 +624,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -546,8 +641,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -560,8 +658,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
                 {% endif %}
@@ -569,7 +670,7 @@
             </div>
 
             <div class="weekofday wednesday">
-                <h3>수요일</h3>
+                <div class="h3">수요일</div>
                 {% for timeslot in wednesday_timeslots %}
 
                 {% if timeslot.starttime|date:"h" == '09' %}
@@ -580,8 +681,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -594,8 +698,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -608,8 +715,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -622,8 +732,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -636,8 +749,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -650,8 +766,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -664,8 +783,11 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
@@ -678,13 +800,16 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '05' %}
-                <div class=" seventeen" id="id_{{timeslot.date|date:'Y_m_d'}}">
+                <div class="seventeen" id="id_{{timeslot.date|date:'Y_m_d'}}">
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
@@ -692,8 +817,26 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+/*
+                            var same_time = document.querySelectorAll("#id_{{timeslot.date|date:'Y_m_d'}}");
+                            var same_time2 = document.querySelectorAll(".seventeen");
+
+
+                            console.log(lst);
+                            
+                            if(same_time2.length>1){
+                                alert("Sfda");
+                                for(var i=0;i<same_time.length;i++){
+                                same_time2[i].style.width=(same_time2[i].style.width)/same_time2.length;
+                                }
+                                }
+*/
                         </script>
                 </div>
 
@@ -706,21 +849,34 @@
                             var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
                             var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
                             var running_time = (now.getTime()-old.getTime())/3600000;
-                            var height=5*running_time+'vh';
-                            //$('#id_{{timeslot.content.id}}').css('height',height); //이후 실험수정해서 하나만 시간 바꾸면 안먹혀 ㅠ
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
                         </script>
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
             <div class="weekofday thursday">
-                <h3>목요일</h3>
+                <div class="h3">목요일</div>
                 {% for timeslot in thursday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class=" nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '10' %}
@@ -728,6 +884,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '11' %}
@@ -735,6 +901,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '12' %}
@@ -742,6 +918,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '01' %}
@@ -749,6 +935,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '02' %}
@@ -756,6 +952,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '03' %}
@@ -763,6 +969,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '04' %}
@@ -770,6 +986,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '05' %}
@@ -777,6 +1003,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '06' %}
@@ -784,18 +1020,38 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
             <div class="weekofday friday">
-                <h3>금요일</h3>
+                <div class="h3">금요일</div>
                 {% for timeslot in friday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class=" nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '10' %}
@@ -803,6 +1059,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '11' %}
@@ -810,6 +1076,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '12' %}
@@ -817,6 +1093,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '01' %}
@@ -824,6 +1110,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '02' %}
@@ -831,6 +1127,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '03' %}
@@ -838,6 +1144,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '04' %}
@@ -845,6 +1161,16 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '05' %}
@@ -852,90 +1178,209 @@
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
                         {{timeslot.starttime}}</button>
+                        <script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '06' %}
                 <div class=" eighteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
                     <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
                         onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                        {{timeslot.starttime}}</button><script>
+                            var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                            var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                            var running_time = (now.getTime()-old.getTime())/3600000;
+                            var nopi = running_time*5+'vh';
+                            var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                            for(var i=0;i<time_slots.length;i++){
+                                time_slots[i].style.height=nopi;
+                            }
+                        </script>
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
 
             <div class="weekofday saturday">
-                <h3>토요일</h3>
+                <div class="h3">토요일</div>
                 {% for timeslot in saturday_timeslots %}
                 {% if timeslot.starttime|date:"h" == '09' %}
                 <div class="nine" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                    {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '10' %}
                 <div class="ten" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}>
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
 
                 {% elif timeslot.starttime|date:"h" == '11' %}
                 <div class=" eleven" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}>
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '12' %}
                 <div class=" twelve" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}>
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '01' %}
                 <div class=" thirteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '02' %}
                 <div class=" fourteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '03' %}
                 <div class=" fifteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '04' %}
                 <div class=" sixteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '05' %}
                 <div class=" seventeen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
 
                 {% elif timeslot.starttime|date:"h" == '06' %}
                 <div class="eighteen" id="id_{{timeslot.date|date:'Y_m_d'}}">
-                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}}
-                        onclick="showPopup({{timeslot.id}});">{{timeslot.content.title}}
-                        {{timeslot.starttime}}</button>
+                    <button type="button" class="timeslotbutton" id=id_{{timeslot.content.id}} onclick="showPopup({{timeslot.id}});">
+                        {{timeslot.content.title}} {{timeslot.starttime}}
+                    </button>
+                    <script>
+                        var old = new Date(2020,10,24,{{ timeslot.starttime|date:'H'}}, {{ timeslot.starttime|date:'i'}},00);
+                        var now = new Date(2020,10,24,{{ timeslot.endtime|date:'H'}}, {{ timeslot.endtime|date:'i'}},00);
+                        var running_time = (now.getTime()-old.getTime())/3600000;
+                        var nopi = running_time*5+'vh';
+                        var time_slots = document.querySelectorAll('#id_{{timeslot.content.id}}');
+                        for(var i=0;i<time_slots.length;i++){
+                            time_slots[i].style.height=nopi;
+                        }
+                    </script>
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -948,10 +1393,11 @@
 
     <div class="content">
         {% for content in all_contents %}
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop"
+        <button type="button" class="btn btn-primary" id="content_{{content.id}}" data-toggle="modal" data-target="#staticBackdrop"
             onclick="showPopup1({{content.id}})">
             {{content.title}}
         </button>
+    
 
         {% endfor %}
     </div>
@@ -996,15 +1442,17 @@
     $(".sixteen").css("display", "none");
     $(".seventeen").css("display", "none");
     $(".eighteen").css("display", "none");
-    console.log(thisWeek);
+    //$("#content").css("display","none");
+
     for (var w = 0; w < 7; w++) {
         var eDate = document.querySelectorAll("#id_" + thisWeek[w]);
+        //var eDate2 = document.querySelectorAll("#content_"+thisWeek[])
         var k = eDate.length;
         for (var y = 0; y < k; y++) {
-            console.log(eDate[y]);
             eDate[y].style.display = 'block';
         }
     }
+
 </script>
 {% for timeslot in all_timeslots %}
     

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="title">{{timeslot.content.title}}</div>
-    <div class="information">{{timeslot.date}} {{timeslot.starttime}} {{timeslot.endtime}} {{timeslot.day_of_week}} {{timeslot.isUsed}}</div>
+    <div class="information">{{timeslot.date}}, {{timeslot.starttime}} ~ {{timeslot.endtime}}</div>
     <div class="form">
         <form action="" method="post">
             {% csrf_token %}
